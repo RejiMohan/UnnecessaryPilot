@@ -1,0 +1,500 @@
+
+.side-menu {
+    -fx-padding: 20.0, 10.0;
+    -fx-font-size: 15.0;
+    -fx-font-weight: NORMAL;
+    -fx-text-fill: #787773;
+}
+
+.title-label {
+    -fx-font-size: 16.0px;
+    -fx-padding: 14.0px;
+    -fx-text-fill: rgba(0.0, 0.0, 0.0, 0.87);
+}
+
+.form-label {
+    -fx-font-size: 16px;
+    -fx-padding: 14px;
+    -fx-pref-width: 100px;
+    -fx-text-fill: rgba(0.0, 0.0, 0.0, 0.87);
+}
+
+.table-title {
+	-fx-font-size: 22px;
+	-fx-font-weight: bold;
+    -fx-pref-width: 450px;
+    -fx-text-fill: #192A2F;
+    -fx-padding: 0 0 0 10px;
+}
+
+.padded-top {
+	-fx-padding: 18px 0 0 0;
+}
+
+.red-text {
+	-fx-text-fill: #E54E30;
+}
+
+.blue-text {
+	 -fx-text-fill: #17C8BB;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Drawer                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+.jfx-drawer-overlay-pane {
+    -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1)
+}
+
+.jfx-drawer-side-pane {
+    -fx-background-color: #FBFBFB;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Dialog Layout                                                           *
+ *                                                                             *
+ ******************************************************************************/
+
+.jfx-dialog-overlay-pane {
+    -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
+}
+
+.jfx-dialog-layout {
+    -fx-padding: 24.0px 24.0px 16.0px 24.0px;
+    -fx-text-fill: rgba(0.0, 0.0, 0.0, 0.87);
+}
+
+.jfx-layout-heading {
+    -fx-font-size: 24.0px;
+    -fx-font-weight: BOLD;
+    -fx-alignment: center-left;
+    -fx-padding: 5.0 0.0 15.0 0.0;
+}
+
+.jfx-layout-body .label {
+    -fx-font-size: 14.0px;
+    -fx-pref-width: 400.0px;
+    -fx-wrap-text: true;
+}
+
+.jfx-layout-actions {
+    -fx-padding: 10.0px 0.0 0.0 0.0;
+    -fx-alignment: center-right;
+}
+
+.dialog-accept {
+    -fx-font-size: 14.0px;
+    -fx-font-weight: BOLD;
+    -fx-padding: 0.7em 0.8em;
+}
+
+/*******************************************************************************
+*                                                                              *
+* JFX Hamburger Icon                                                           *
+*                                                                              *
+*******************************************************************************/
+
+.jfx-hamburger {
+    -fx-padding: 10.0;
+    -fx-spacing: 4px;
+    -fx-cursor: hand;
+}
+
+.jfx-hamburger StackPane {
+    -fx-pref-width: 30px;
+    -fx-pref-height: 4px;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 5px;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Tool Bar                                                                *
+ *                                                                             *
+ ******************************************************************************/
+
+.jfx-tool-bar {
+    -fx-font-size: 24.0;
+    -fx-font-weight: BOLD;
+    -fx-background-color: #08C1D7;
+    -fx-pref-width: 100.0%;
+    -fx-pref-height: 64.0px;
+}
+
+.jfx-tool-bar HBox {
+    -fx-alignment: center;
+    -fx-spacing: 25.0;
+    -fx-padding: 0.0 10.0;
+}
+
+.jfx-tool-bar Label {
+    -fx-text-fill: #FFFFFF;
+}
+
+.jfx-tool-bar .jfx-rippler {
+    -jfx-rippler-fill: #FFFFFF;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Radio Button                                                            *
+ *                                                                             *
+ ******************************************************************************/
+.blue-radio {
+    -fx-font-size: 16.0px;
+    -fx-text-fill: #0B90B8;
+    -jfx-selected-color: #0B90B8;
+    -jfx-unselected-color: #1C6277;
+}
+
+.blue-radio .radio {
+    -fx-stroke-width: 2.0px;
+    -fx-fill: transparent;
+}
+
+/*******************************************************************************
+*                                                                              *
+* JFX Check Box                                                                *
+*                                                                              *
+*******************************************************************************/
+.blue-checkbox {
+	-fx-font-size: 16.0px;
+    -jfx-checked-color: #0B90B8;
+    -jfx-unchecked-color: #0B90B8;
+    -fx-text-fill: #1C6277;
+}
+
+/*******************************************************************************
+*                                                                              *
+* JFX Textfield                                                                *
+*                                                                              *
+*******************************************************************************/
+
+.jfx-text-field, .jfx-text-area {
+    -fx-background-color: transparent;
+    -fx-prompt-text-fill: #808080;
+    -fx-alignment: top-left;
+    -fx-max-width: 300.0;
+    -fx-pref-width: 300.0;
+    -jfx-focus-color: #4059A9;
+    -jfx-unfocus-color: #4d4d4d;
+}
+
+.jfx-text-area {
+	-fx-pref-height: 50.0;
+}
+
+.jfx-text-area .viewport {
+    -fx-background-color: #F9F9F9;
+}
+
+/*******************************************************************************
+*                                                                              *
+* JFX Combo Box                                                                *
+*                                                                              *
+*******************************************************************************/
+
+.combo-box-popup .list-view {
+ 	-fx-background-color: rgba(0.0, 0.0, 255.0, 0.2);
+ 	-fx-text-fill: #232323;
+ }
+
+.combo-box-popup .list-view .list-cell {
+	-fx-background-color: #FFFFFF;
+	-fx-text-fill: #040405;
+	-fx-background-insets: 0.0;
+ }
+
+ .combo-box-popup .list-view .list-cell:hover {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #379BC0;
+}
+
+.combo-box .cell:selected {
+    -fx-text-fill: #040405;
+}
+
+.combo-box-popup .list-view .jfx-list-cell:filled:hover {
+	-fx-fill: #5264AE;
+	-fx-background-color: #67BB9E;
+}
+
+/*******************************************************************************
+*                                                                              *
+* Table Buttons                                                                *
+*                                                                              *
+*******************************************************************************/
+.table-btn {
+	-fx-pref-width: 10px;    
+    -fx-background-radius: 10px;
+    -fx-pref-height: 10px;
+    -fx-text-fill: #FFFFFF;    
+    -fx-border-radius: 10px;
+    -fx-border-width: 2px;
+}
+
+.red-btn {
+	-fx-background-color: #FF2E2E;
+	-fx-border-color: #F8F8F3;
+}
+
+.green-btn {
+	-fx-background-color: #1EBD0E;
+	-fx-border-color: #F8F8F3;
+}
+
+.button-label-fa {
+	-fx-fill: #FFFFFE;
+    -fx-padding: 3.0;
+    -fx-cursor: hand;
+}
+
+.label-spacer {
+	-fx-min-width: 15px;
+}
+
+/*******************************************************************************
+*                                                                              *
+* JFX List View                                                                *
+*                                                                              *
+*******************************************************************************/
+
+.jfx-list-cell .jfx-rippler {
+    -jfx-rippler-fill: #5264AE;
+}
+
+.jfx-list-cell:odd:selected > .jfx-rippler > StackPane,
+.jfx-list-cell:even:selected > .jfx-rippler > StackPane {
+    -fx-background-color: #76E2EB;
+}
+
+.jfx-list-view {
+    -fx-background-insets: 0.0;
+    -jfx-cell-horizontal-margin: 0.0;
+    -jfx-cell-vertical-margin: 5.0;
+    -jfx-vertical-gap: 10.0;
+    -jfx-expanded: false;
+}
+
+.custom-jfx-list-view {
+    -fx-background-insets: 0.0;
+    -jfx-cell-horizontal-margin: 0.0;
+    -jfx-cell-vertical-margin: 5.0;
+    -jfx-expanded: false;
+    -fx-max-width: 200.0px;
+    /* important to hide the list change of height */
+    -fx-background-color: TRANSPARENT;
+}
+
+.drawer-list .jfx-list-cell {
+    -fx-background-insets: 0.0;
+    -fx-text-fill: BLACK;
+}
+
+.drawer-list .jfx-list-cell:odd,
+.drawer-list .jfx-list-cell:even {
+    -fx-background-color: WHITE;
+}
+
+.drawer-item-icon {
+	-fx-fill: #089AC2;
+    -fx-padding: 0.0 10.0 0.0 5.0;
+    -fx-cursor: hand;
+}
+
+.drawer-item-icon-container {
+	-fx-pref-width: 40px;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Scroll Pane                                                             *
+ *                                                                             *
+ ******************************************************************************/
+.entry-scroll .main-header {
+    -fx-background-image: url("../imgs/bg11.png");
+}
+
+.entry-scroll .condensed-header {
+    -fx-background-image: url("../imgs/bg22.png");
+}
+
+.history-scroll .main-header {
+    -fx-background-image: url("../imgs/bg22.png");
+}
+
+.history-scroll .condensed-header {
+    -fx-background-image: url("../imgs/bg11.png");
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Dialog Buttons                                                          *
+ *                                                                             *
+ ******************************************************************************/
+.form-btn {
+	-fx-font-size:14px;
+	-fx-pref-width: 100px;    
+    -fx-background-radius: 3px;
+    -fx-pref-height: 30px;
+    -fx-text-fill: #FFFFFF; 
+    -fx-border-color: #F8F8F3;   
+    -fx-border-radius: 3px;
+    -fx-border-width: 2px;
+}
+
+.form-btn:hover, .history-btn:hover {     
+  -fx-effect: dropshadow( three-pass-box, #37F0FF, 10.0, 0.0, 0.0, 0.0);;
+  -fx-font-weight: bold; 
+  -fx-cursor: hand;
+ }
+
+.history-btn {
+	-fx-pref-width: 40px;    
+    -fx-background-radius: 5px;
+    -fx-pref-height: 15px;
+    -fx-text-fill: #FFFFFF;    
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+    -fx-background-color: #1F6075;
+	-fx-border-color: #FFFFFF;
+}
+
+.my-button {
+    -fx-pref-width: 35px;
+    -fx-background-color: #44B449;
+    -fx-background-radius: 35px;
+    -fx-pref-height: 35px;
+    -fx-text-fill: white;
+    -fx-border-color: WHITE;
+    -fx-border-radius: 35px;
+    -fx-border-width: 3px;
+}
+
+.history-container {
+	-fx-pref-width: 400.0;
+}
+
+.hours-label {
+  -fx-text-fill: #979797;
+  -fx-font-weight: bold;
+  -fx-font-size: 16px;
+  -fx-padding: 5 0 0 0;
+}
+ 
+.blue-lbl > .glyph-icon {
+	-fx-fill: #17569E; 
+}
+
+.red-lbl > .glyph-icon {
+	-fx-fill: #CF261B; 
+}
+
+.green-lbl > .glyph-icon {
+	-fx-fill: #079C1A; 
+}
+
+.yellow-lbl > .glyph-icon {
+	-fx-fill: #F7B11C; 
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Snackbar                                                               *
+ *                                                                             *
+ ******************************************************************************/
+.jfx-snackbar-content {
+    -fx-background-color: #323232;
+    -fx-border-width: 2px;
+    -fx-border-color: #0F4770;
+    -fx-effect: dropshadow( three-pass-box, #37F0FF, 10.0, 0.0, 0.0, 0.0);
+}
+
+.jfx-snackbar-toast {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 12px;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * JFX Alert Box                                                               *
+ *                                                                             *
+ ******************************************************************************/
+.dialog-pane {
+  -fx-border-color: #0F4770;
+  -fx-border-width: 2px;
+  -fx-border-radius: 2px;
+ }
+
+.dialog-pane > .button-bar > .container {
+  -fx-background-color: #1F9CB2;
+}
+
+.dialog-pane > .content.label {
+   -fx-padding: 10px;
+   -fx-background-color: #1F9CB2;
+   -fx-text-fill: #FFFFFF;
+   -fx-font-size: 15px;
+}
+
+.dialog-pane:header .header-panel {
+  -fx-background-color: #0C5379;
+}
+
+.dialog-pane:header .header-panel .label {
+  -fx-background-color: #0C5379;
+  -fx-text-fill: #FFFFFF;
+  -fx-font-weight: bold;
+  -fx-font-size: 26px;
+}
+
+.dialog-pane .button {
+   -fx-background-color: #0F4770;
+   -fx-text-fill: #FFFFFF;
+   -fx-wrap-text: true;
+   -fx-effect: dropshadow( three-pass-box, #37F0FF, 10.0, 0.0, 0.0, 0.0);
+   -fx-cursor: hand;
+ }
+
+.dialog-pane .button:hover {     
+  -fx-background-color: #F3FEFF;
+  -fx-text-fill: #0F4770;
+  -fx-font-weight: bold; 
+ }
+
+/*******************************************************************************
+*                                                                              *
+* Progress Bar                                                                 *
+*                                                                              *
+*******************************************************************************/
+.jfx-progress-bar {
+	-fx-pref-width: 800.0;
+}
+
+.jfx-progress-bar > .track, .jfx-progress-bar > .bar {
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}
+
+.jfx-progress-bar > .track {
+    -fx-background-color: #E0E0E0;
+}
+
+.sb-progress-bar > .bar {	
+	-fx-background-color: #37F0FF;
+	/*-fx-padding: 2;*/
+}
+/*******************************************************************************
+*                                                                              *
+* Table View                                                                   *
+*                                                                              *
+*******************************************************************************/
+.tree-table-view .tree-table-cell {
+    -fx-border-width: 0 0 0 0;
+    -fx-padding: 5 0 5 0;
+    -fx-alignment: top-center;
+}

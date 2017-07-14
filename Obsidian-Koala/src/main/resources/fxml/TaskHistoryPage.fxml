@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<StackPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+    <JFXScrollPane fx:id="taskHistoryScroll" styleClass="history-scroll">
+        <bottomBar>
+            <children>
+                <Label style="-fx-text-fill:#fcfcfc; -fx-font-size: 42;">
+                    STEMS - Logged Hours
+                    <StackPane.alignment>CENTER_LEFT</StackPane.alignment>
+                    <StackPane.margin>
+                        <Insets>
+                            <left>
+                                100
+                            </left>
+                        </Insets>
+                    </StackPane.margin>
+                </Label>                
+            </children>
+        </bottomBar>
+        <content>
+            <StackPane style="-fx-padding:10;">
+            <VBox spacing="40" alignment="CENTER">
+                <JFXSnackbar fx:id="snackbar" prefWidth="300"/>
+                <HBox alignment="CENTER" style="-fx-padding: 10 20 0 20;">
+                    <Label style="-fx-padding: 10 20 0 0; -fx-font-size: 16px;">Since: </Label>
+                    <JFXDatePicker fx:id="historyDate" prefWidth="185" editable="false" promptText="Choose Date" style="-fx-padding: 10 15 0 0;"/>
+                    <JFXButton fx:id="getEntryBtn" buttonType="RAISED" styleClass="history-btn" text="GO"></JFXButton>         
+                </HBox>
+
+                <JFXProgressBar fx:id="progressBar" styleClass="sb-progress-bar"></JFXProgressBar>
+                
+	            <StackPane styleClass="history-container" style="-fx-padding: 0 50 0 50;">                    
+                    <JFXListView fx:id="historyList"></JFXListView>
+                </StackPane>
+
+            </VBox>
+            </StackPane>
+        
+        </content>
+    </JFXScrollPane>
+</StackPane>
+

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<StackPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+	<JFXScrollPane fx:id="taskEntryScroll" styleClass="entry-scroll">
+		<bottomBar>
+			<children>
+				<Label style="-fx-text-fill:#fcfcfc; -fx-font-size: 42;">
+					Task Entry
+					<StackPane.alignment>CENTER_LEFT</StackPane.alignment>
+					<StackPane.margin>
+						<Insets>
+							<left>
+								100
+							</left>
+						</Insets>
+					</StackPane.margin>
+				</Label>
+			</children>
+		</bottomBar>
+		<content>
+
+			<StackPane style="-fx-padding:25;">
+				<JFXSnackbar fx:id="snackbar" prefWidth="300"/>
+				<VBox prefWidth="550" spacing="10" maxWidth="550" alignment="CENTER">
+					
+		            <HBox alignment="CENTER">
+		                <Label styleClass="form-label">Project: </Label>
+		                <StackPane HBox.hgrow="ALWAYS">
+		                    <StackPane StackPane.alignment="CENTER_LEFT" maxWidth="250">
+		                        <JFXComboBox fx:id="projectCombo" prefWidth="250" promptText="Choose Project"></JFXComboBox>
+		                    </StackPane>
+		                </StackPane>		                
+		            </HBox>
+		            
+        		   <HBox alignment="CENTER">
+		                <Label styleClass="form-label">Date: </Label>
+		                <StackPane HBox.hgrow="ALWAYS">
+		                    <StackPane StackPane.alignment="CENTER_LEFT" maxWidth="250">
+		                        <JFXDatePicker fx:id="timesheetDate" prefWidth="250" editable="false" promptText="Choose Date"></JFXDatePicker>
+		                    </StackPane>
+		                </StackPane>
+		            </HBox>
+		
+					<HBox alignment="CENTER_LEFT" styleClass="padded-top">
+						<Label styleClass="table-title">Task Entries for the Day</Label>					
+						<JFXButton fx:id="addEntryBtn" buttonType="RAISED" styleClass="table-btn,green-btn">
+							<graphic>
+								<StackPane styleClass="">
+									<FontAwesomeIconView glyphName="PLUS" size="1em" styleClass="button-label-fa" />
+								</StackPane>
+							</graphic>
+						</JFXButton>
+						<Label styleClass="label-spacer"/>
+						<JFXButton fx:id="delEntryBtn" buttonType="RAISED" styleClass="table-btn,red-btn">
+							<graphic>
+								<StackPane styleClass="">
+									<FontAwesomeIconView glyphName="MINUS" size="1em" styleClass="button-label-fa" />
+								</StackPane>
+							</graphic>
+						</JFXButton>
+					</HBox>
+					
+					<JFXTreeTableView fx:id="tasksTableView" prefWidth="400" prefHeight="150">
+						<placeholder>
+					        <Label text="You haven't added any tasks yet."/>
+					    </placeholder>
+						<columns>
+							<JFXTreeTableColumn fx:id="colGroup" text="Group" resizable="true" sortable="false"></JFXTreeTableColumn>
+							<JFXTreeTableColumn fx:id="colActivity" text="Activity" resizable="true" sortable="false"></JFXTreeTableColumn>
+							<JFXTreeTableColumn fx:id="colDuration" text="Duration" resizable="true" sortable="false"></JFXTreeTableColumn>
+							<JFXTreeTableColumn fx:id="colRemarks" text="Task Details" minWidth="100" prefWidth="200" resizable="true" sortable="false"></JFXTreeTableColumn>
+						</columns>
+					</JFXTreeTableView>
+					
+					<HBox spacing="40" styleClass="padded-top">
+						<children>
+							<JFXCheckBox fx:id="repeatCheckBox" text="Repeat the same entry for previous days in this week" styleClass="blue-checkbox"></JFXCheckBox>
+						</children>
+					</HBox>
+
+					<HBox spacing="10" style="-fx-padding: 0 0 0 50;">
+						<fx:define><ToggleGroup fx:id="repeatedDays" /></fx:define>
+						<children>
+							<JFXRadioButton fx:id="radio1day" selected="true" text="1 Day" toggleGroup="$repeatedDays" styleClass="blue-radio" />
+							<JFXRadioButton fx:id="radio2day" selected="false" text="2 Days" toggleGroup="$repeatedDays" styleClass="blue-radio" />
+							<JFXRadioButton fx:id="radio3day" selected="false" text="3 Days" toggleGroup="$repeatedDays" styleClass="blue-radio" />
+							<JFXRadioButton fx:id="radio4day" selected="false" text="4 Days" toggleGroup="$repeatedDays" styleClass="blue-radio" />
+						</children>
+					</HBox>
+
+					<JFXProgressBar fx:id="progressBar" styleClass="sb-progress-bar"></JFXProgressBar>
+
+					<HBox alignment="CENTER" spacing="40" style="-fx-padding: 25 50 0 50;">
+						<JFXButton  fx:id="submitButton" buttonType="RAISED" text="SUBMIT" styleClass="form-btn" style="-fx-background-color:#1F6075;"/>
+
+						<JFXButton fx:id="clearButton" buttonType="RAISED" text="RESET" styleClass="form-btn" style="-fx-background-color:#758180;" />
+					</HBox>
+				</VBox>
+			</StackPane>
+		</content>
+	</JFXScrollPane>
+
+
+	<JFXDialog fx:id="messagePopup">
+        <JFXDialogLayout>
+            <heading>
+                <Label fx:id="messageTitle"/>
+            </heading>
+            <body>
+                <Label fx:id="messageBody"/>
+            </body>
+            <actions>
+                <JFXButton fx:id="acceptButton" styleClass="dialog-accept,blue-text">OK</JFXButton>
+            </actions>
+        </JFXDialogLayout>
+    </JFXDialog>
+
+
+
+	<JFXDialog fx:id="addTaskDlg">		
+		<JFXDialogLayout>
+			<heading>
+				<Label>Add Entry</Label>
+			</heading>
+			<body>
+
+				<VBox prefWidth="300" spacing="30" maxWidth="300" alignment="CENTER">
+					<children>
+
+						<HBox spacing="40" style="-fx-padding: 0 0 0 10;">
+							<children>
+								<JFXComboBox fx:id="tsActGrpCombo" prefWidth="300" promptText="Activity Group*" labelFloat="true"></JFXComboBox>
+							</children>
+						</HBox>
+
+						<HBox spacing="40" style="-fx-padding: 0 0 0 10;">
+							<children>
+								<JFXComboBox fx:id="tsActivityCombo" prefWidth="300" promptText="Activity*" labelFloat="true"></JFXComboBox>
+							</children>
+						</HBox>
+
+						<HBox spacing="40" style="-fx-padding: 0 0 0 10;">
+							<children>
+								<JFXTextField fx:id="tsHours" promptText="Hours*" labelFloat="true" ></JFXTextField>
+								<JFXTextField fx:id="tsMinutes" promptText="Minutes*" labelFloat="true"></JFXTextField>
+							</children>
+						</HBox>
+
+						<HBox spacing="40" style="-fx-padding: 0 0 0 10;">
+							<children>
+								<JFXTextArea fx:id="tsRemarks" promptText="Task Details*" labelFloat="true" maxWidth="300"></JFXTextArea>
+							</children>
+						</HBox>
+
+					</children>
+				</VBox>
+			</body>
+			<actions>
+				<JFXButton fx:id="addButton" styleClass="dialog-accept,blue-text">ADD</JFXButton>
+				<JFXButton fx:id="closeButton" styleClass="dialog-accept,red-text">CLOSE</JFXButton>
+			</actions>
+		</JFXDialogLayout>
+	</JFXDialog>
+</StackPane>
+

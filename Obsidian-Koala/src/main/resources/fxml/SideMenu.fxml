@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.StackPane?>
+<?import java.lang.String?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<StackPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+    <styleClass>
+        <String fx:value="side-menu"/>
+    </styleClass>
+    <JFXListView fx:id="sideList" styleClass="drawer-list">
+        <Label fx:id="taskEntryTrigger">Task Entry
+        	<graphic>
+                <StackPane styleClass="drawer-item-icon-container">
+                    <FontAwesomeIconView glyphName="TASKS" size="1.5em" styleClass="drawer-item-icon"/>
+                </StackPane>
+            </graphic>
+        </Label>
+		<Label fx:id="taskHistoryTrigger">Logged Hours
+			<graphic>
+                <StackPane styleClass="drawer-item-icon-container">
+                    <FontAwesomeIconView glyphName="CALENDAR_CHECK_ALT" size="1.5em" styleClass="drawer-item-icon"/>
+                </StackPane>
+            </graphic>
+        </Label>
+    </JFXListView>
+</StackPane>

@@ -1,0 +1,174 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.reji.test</groupId>
+	<artifactId>stemsBuddyApp</artifactId>
+	<version>1.0.0</version>
+	<name>STEMS Buddy</name>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<app.icon>${project.basedir}/src/main/resources/icons/icon.ico</app.icon>
+		<sonar.host.url>http://127.0.0.1:9000</sonar.host.url>
+		<jar.finalName>stems-buddy</jar.finalName>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.datafx</groupId>
+			<artifactId>datafx</artifactId>
+			<version>8.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.datafx</groupId>
+			<artifactId>flow</artifactId>
+			<version>8.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>de.jensd</groupId>
+			<artifactId>fontawesomefx</artifactId>
+			<version>8.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jfoenix</groupId>
+			<artifactId>jfoenix</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.10.2</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<finalName>${jar.finalName}</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>com.po.ping.obskoala.BaseApp</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<version>1.7.18</version>
+				<executions>
+					<execution>
+						<id>l4j-clui</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>gui</headerType>
+							<outfile>${project.build.directory}/stems-buddy.exe</outfile>
+							<jar>${project.build.directory}/${jar.finalName}.jar</jar>
+							<icon>${app.icon}</icon>
+							<errTitle>STEMS Buddy</errTitle>
+							<classPath>
+								<mainClass>com.po.ping.obskoala.BaseApp</mainClass>
+								<preCp>anything</preCp>
+							</classPath>
+							<jre>
+								<minVersion>1.8.0_60</minVersion>
+								<jdkPreference>preferJre</jdkPreference>
+							</jre>
+							<singleInstance>
+								<mutexName>stemsBuddy</mutexName>
+								<windowTitle>STEMS Buddy</windowTitle>
+							</singleInstance>
+							<versionInfo>
+								<fileVersion>1.0.0.0</fileVersion>
+								<txtFileVersion>SB[1.0.0.0] Obsidian Koala</txtFileVersion>
+								<fileDescription>Stems Timesheet Entry Helper</fileDescription>
+								<copyright>© 2017 Reji Mohan M</copyright>
+								<productVersion>1.0.0.0</productVersion>
+								<txtProductVersion>SB[1.0.0.0] </txtProductVersion>
+								<productName>STEMS Buddy</productName>
+								<internalName>SB-OK</internalName>
+								<originalFilename>sb-ok-original.exe</originalFilename>
+							</versionInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
+				<version>1.7.1</version> <executions> <execution> <phase>package</phase> 
+				<goals> <goal>shade</goal> </goals> </execution> </executions> <configuration> 
+				<shadedArtifactAttached>true</shadedArtifactAttached> <shadedClassifierName>shaded</shadedClassifierName> 
+				<transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				<mainClass>com.obsidiankoala.BaseApp</mainClass> </transformer> </transformers> 
+				</configuration> </plugin> -->
+
+			<!-- <plugin> <groupId>com.akathist.maven.plugins.launch4j</groupId> <artifactId>launch4j-maven-plugin</artifactId> 
+				<version>1.7.18</version> <executions> <execution> <id>l4j-clui</id> <phase>package</phase> 
+				<goals> <goal>launch4j</goal> </goals> <configuration> <headerType>gui</headerType> 
+				<jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar> 
+				<outfile>${project.build.directory}/stemsbuddy.exe</outfile> <downloadUrl>http://java.com/download</downloadUrl> 
+				<classPath> <mainClass>com.obsidiankoala.BaseApp</mainClass> <preCp>anything</preCp> 
+				</classPath> <icon>${app.icon}</icon> <jre> <minVersion>1.8.0_60</minVersion> 
+				<jdkPreference>preferJre</jdkPreference> </jre> <versionInfo> <fileVersion>1.0.0.0</fileVersion> 
+				<txtFileVersion>${project.version}</txtFileVersion> <fileDescription>${project.name}</fileDescription> 
+				<copyright>2017 © Reji Mohan M</copyright> <productVersion>1.0.0.0</productVersion> 
+				<txtProductVersion>1.0.0.0</txtProductVersion> <productName>${project.name}</productName> 
+				<internalName>stemsbuddy</internalName> <originalFilename>stemsbuddy.exe</originalFilename> 
+				</versionInfo> </configuration> </execution> </executions> </plugin> -->
+		</plugins>
+	</build>
+
+</project>
