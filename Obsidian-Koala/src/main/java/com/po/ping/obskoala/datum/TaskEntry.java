@@ -1,16 +1,37 @@
 package com.po.ping.obskoala.datum;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class TaskEntry extends RecursiveTreeObject<TaskEntry> {
+	private LocalDate tsDate;
+	private IdNameHolder tsProject;
 	private IdNameHolder tsActyGrp;
 	private IdNameHolder tsActivity;
 	private String tsHours;
 	private String tsMinutes;
 	private String tsRemarks;
+
+	public LocalDate getTsDate() {
+		return tsDate;
+	}
+
+	public void setTsDate(LocalDate tsDate) {
+		this.tsDate = tsDate;
+	}
+
+	public IdNameHolder getTsProject() {
+		return tsProject;
+	}
+
+	public void setTsProject(IdNameHolder tsProject) {
+		this.tsProject = tsProject;
+	}
 
 	public IdNameHolder getTsActyGrp() {
 		return tsActyGrp;
@@ -53,6 +74,14 @@ public class TaskEntry extends RecursiveTreeObject<TaskEntry> {
 	}
 
 	// For UI Table
+	public StringProperty getProject() {
+		return new SimpleStringProperty(this.tsProject.getName());
+	}
+
+	public StringProperty getDate() {
+		return new SimpleStringProperty(this.tsDate.format(DateTimeFormatter.ofPattern("EEE, dd MMM yyyy")));
+	}
+	
 	public StringProperty getGroup() {
 		return new SimpleStringProperty(this.tsActyGrp.getName());
 	}

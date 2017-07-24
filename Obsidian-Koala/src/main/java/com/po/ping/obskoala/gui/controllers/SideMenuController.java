@@ -32,6 +32,10 @@ public class SideMenuController {
     @ActionTrigger("taskHistoryTrigger")
     private Label taskHistoryTrigger;
     
+    @FXML
+    @ActionTrigger("bulkEntryTrigger")
+    private Label bulkEntryTrigger;
+    
     @FXML private JFXListView<Label> sideList;
     
     private static final Logger LOGGER = Logger.getLogger(SideMenuController.class.getName());
@@ -47,7 +51,7 @@ public class SideMenuController {
                 try {
                     contentFlowHandler.handle(newVal.getId());
                 } catch (VetoException | FlowException exc) {
-                	LOGGER.log(Level.WARNING, "Something Went Wrong", exc);
+                	LOGGER.log(Level.SEVERE, "Something Went Wrong", exc);
                 }
             }
         });
@@ -55,6 +59,7 @@ public class SideMenuController {
 
         bindNodeToController(taskEntryTrigger, TaskEntryPageController.class, contentFlow);
         bindNodeToController(taskHistoryTrigger, TaskHistoryPageController.class, contentFlow);
+        bindNodeToController(bulkEntryTrigger, BulkEntryPageController.class, contentFlow);
     }
 
     private void bindNodeToController(Node node, Class<?> controllerClass, Flow flow) {

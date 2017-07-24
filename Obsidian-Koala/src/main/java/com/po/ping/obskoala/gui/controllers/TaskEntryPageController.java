@@ -38,6 +38,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 import java.time.DayOfWeek;
@@ -97,11 +98,13 @@ public class TaskEntryPageController {
     @FXML private JFXButton acceptButton;
     
     @FXML private JFXProgressBar progressBar;
+    @FXML private HBox actyPrgrsContainer;
     
     private ObservableList<TaskEntry> taskList = FXCollections.observableArrayList();
     private StemsMetaData stemsCfg;
     private List<String> responseMsgs = new ArrayList<>();
     private Service<Void> service = new ProcessService();
+    private Service<Void> activitySvc = new ActivityService();
 
     @PostConstruct
 	public void init() {
@@ -160,9 +163,9 @@ public class TaskEntryPageController {
     	if(null == projectCombo.getValue())  
     		errorMessages.append("You should choose your project.\n");
     	if(null == timesheetDate.getValue())
-   			errorMessages.append("You should choose the date.\n");
+   			errorMessages.append("You should choose the date to submit your timesheet.\n");
    		if(taskList.isEmpty())
-   			errorMessages.append("You should add the entries to submit.");
+   			errorMessages.append("You should add the task entries to submit.");
    		
    		if(errorMessages.length() > 0) {
    			showPopupMessage("Hey, You missed something...", errorMessages.toString());
@@ -212,19 +215,36 @@ public class TaskEntryPageController {
 		tsActGrpCombo.setOnAction(event -> {
 		    IdNameHolder selectedGrp = tsActGrpCombo.getSelectionModel().getSelectedItem();		    
 		    if(null != selectedGrp) {
-		    	try {
 		    		tsActivityCombo.getItems().clear();
-					List<IdNameHolder> activities = StemsAPIConnector.getActivitiesForGroup(selectedGrp.getId(), stemsCfg);
-					tsActivityCombo.getItems().addAll(activities);
-				} catch (StemsCustException e) {
-					snackbar.show("Unable to get List. " + e.getLocalizedMessage(), 3000);
-				}
+		    		
+		    		if(!activitySvc.isRunning()) {
+		    			actyPrgrsContainer.setVisible(true);
+		    			actyPrgrsContainer.setManaged(true);
+		    			activitySvc.start();
+					}
+
+		    		activitySvc.setOnSucceeded(e -> {
+		    			actyPrgrsContainer.setVisible(false);
+		    			actyPrgrsContainer.setManaged(false);
+		    			activitySvc.reset();
+			        });
+		    		
+		    		activitySvc.setOnFailed(e -> {
+		    			actyPrgrsContainer.setVisible(false);
+		    			actyPrgrsContainer.setManaged(false);
+		    			snackbar.show("Oh No! Something went wrong in fetching activities...", 3000);
+		    			activitySvc.reset();
+		    		});
 		    }
 		});	
 		
 		tsActivityCombo.setOnAction(event -> {
 			IdNameHolder selectedGrp = tsActGrpCombo.getSelectionModel().getSelectedItem();
-			IdNameHolder selectedActivity = tsActivityCombo.getSelectionModel().getSelectedItem();		    
+			IdNameHolder selectedActivity = tsActivityCombo.getSelectionModel().getSelectedItem();
+		    if(null != selectedGrp && null != selectedActivity) {
+		    	tsMinutes.setText(StemsUtil.getAutoMinutesForActivity(selectedActivity.getId()));
+		    	tsHours.setText(StemsUtil.getAutoHoursForActivity(selectedActivity.getId()));	
+		    }
 		});
 	}
 
@@ -329,6 +349,10 @@ public class TaskEntryPageController {
 		tasksTableView.setShowRoot(false);
 
 		addEntryBtn.setOnMouseClicked(event -> {
+			
+			actyPrgrsContainer.setVisible(false);
+			actyPrgrsContainer.setManaged(false);
+			
 			tsActGrpCombo.setValue(null);
 			tsActivityCombo.getItems().clear();
 			tsActivityCombo.setValue(null);
@@ -392,7 +416,7 @@ public class TaskEntryPageController {
     	}
     	
     	String actvtId = tsActivityCombo.getValue().getId();
-    	if(isZeroHrs && isZeroMins && !(Constants.HOLIDAY.equalsIgnoreCase(actvtId) || Constants.COMP_OFF.equalsIgnoreCase(actvtId))) {
+    	if(isZeroHrs && isZeroMins) {
     		snackbar.show("Hmmm... You have a Task with Zero Duration.", 2500);
     		return false;
     	}
@@ -423,6 +447,22 @@ public class TaskEntryPageController {
                 	int daysTobeRepeated = repeatCheckBox.isSelected() ? (int) repeatedDays.getSelectedToggle().getUserData() : 0;        	  
 
                 	responseMsgs = StemsAPIConnector.submitTasks(stemsCfg, projectId, taskDate, taskList, daysTobeRepeated);
+                    return null;
+                }
+            };
+        }
+    }
+	
+	
+	class ActivityService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                	List<IdNameHolder> activities = StemsAPIConnector.getActivitiesForGroup(tsActGrpCombo.getSelectionModel().getSelectedItem().getId(), stemsCfg);
+					tsActivityCombo.getItems().addAll(activities);
+
                     return null;
                 }
             };

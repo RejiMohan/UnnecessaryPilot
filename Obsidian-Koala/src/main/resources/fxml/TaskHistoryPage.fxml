@@ -40,7 +40,7 @@
                 <JFXProgressBar fx:id="progressBar" styleClass="sb-progress-bar"></JFXProgressBar>
                 
 	            <StackPane styleClass="history-container" style="-fx-padding: 0 50 0 50;">                    
-                    <JFXListView fx:id="historyList"></JFXListView>
+                    <JFXListView fx:id="historyList" styleClass="mylistview"></JFXListView>
                 </StackPane>
 
             </VBox>

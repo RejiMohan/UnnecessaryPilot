@@ -18,9 +18,9 @@ private String password;
 @SerializedName("projects")
 @Expose
 private List<IdNameHolder> projects = null;
-@SerializedName("groups")
+@SerializedName("activityGroups")
 @Expose
-private List<IdNameHolder> groups = null;
+private List<IdNameHolder> activityGroups = null;
 
 public String getEmpId() {
 return empId;

@@ -138,6 +138,12 @@
 								<JFXComboBox fx:id="tsActGrpCombo" prefWidth="300" promptText="Activity Group*" labelFloat="true"></JFXComboBox>
 							</children>
 						</HBox>
+						
+						<HBox fx:id="actyPrgrsContainer" style="-fx-padding: 0 0 0 0;">
+							<children>
+								<JFXProgressBar fx:id="activityProgress" styleClass="sb-progress-barxx" />
+							</children>
+						</HBox>
 
 						<HBox spacing="40" style="-fx-padding: 0 0 0 10;">
 							<children>

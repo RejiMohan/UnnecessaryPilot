@@ -39,12 +39,15 @@
 	 -fx-text-fill: #17C8BB;
 }
 
+.orange-text {
+	-fx-text-fill: #FF7800;
+}
+
 /*******************************************************************************
  *                                                                             *
  * JFX Drawer                                                                  *
  *                                                                             *
  ******************************************************************************/
-
 .jfx-drawer-overlay-pane {
     -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1)
 }
@@ -58,7 +61,6 @@
  * JFX Dialog Layout                                                           *
  *                                                                             *
  ******************************************************************************/
-
 .jfx-dialog-overlay-pane {
     -fx-background-color: rgba(0.0, 0.0, 0.0, 0.1);
 }
@@ -97,7 +99,6 @@
 * JFX Hamburger Icon                                                           *
 *                                                                              *
 *******************************************************************************/
-
 .jfx-hamburger {
     -fx-padding: 10.0;
     -fx-spacing: 4px;
@@ -116,8 +117,7 @@
  * JFX Tool Bar                                                                *
  *                                                                             *
  ******************************************************************************/
-
-.jfx-tool-bar {
+.header .jfx-tool-bar {
     -fx-font-size: 24.0;
     -fx-font-weight: BOLD;
     -fx-background-color: #08C1D7;
@@ -125,23 +125,23 @@
     -fx-pref-height: 64.0px;
 }
 
-.jfx-tool-bar HBox {
+.header .jfx-tool-bar HBox {
     -fx-alignment: center;
     -fx-spacing: 25.0;
     -fx-padding: 0.0 10.0;
 }
 
-.jfx-tool-bar Label {
+.header .jfx-tool-bar Label {
     -fx-text-fill: #FFFFFF;
 }
 
-.jfx-tool-bar .jfx-rippler {
+.header .jfx-tool-bar .jfx-rippler {
     -jfx-rippler-fill: #FFFFFF;
 }
 
 /*******************************************************************************
  *                                                                             *
- * JFX Radio Button                                                            *
+ * Radio and Checkbox                                                          *
  *                                                                             *
  ******************************************************************************/
 .blue-radio {
@@ -156,11 +156,6 @@
     -fx-fill: transparent;
 }
 
-/*******************************************************************************
-*                                                                              *
-* JFX Check Box                                                                *
-*                                                                              *
-*******************************************************************************/
 .blue-checkbox {
 	-fx-font-size: 16.0px;
     -jfx-checked-color: #0B90B8;
@@ -173,7 +168,6 @@
 * JFX Textfield                                                                *
 *                                                                              *
 *******************************************************************************/
-
 .jfx-text-field, .jfx-text-area {
     -fx-background-color: transparent;
     -fx-prompt-text-fill: #808080;
@@ -188,8 +182,8 @@
 	-fx-pref-height: 50.0;
 }
 
-.jfx-text-area .viewport {
-    -fx-background-color: #F9F9F9;
+.text-area, .text-area .viewport, .text-area .content {
+    -fx-background-color: transparent ;
 }
 
 /*******************************************************************************
@@ -197,7 +191,6 @@
 * JFX Combo Box                                                                *
 *                                                                              *
 *******************************************************************************/
-
 .combo-box-popup .list-view {
  	-fx-background-color: rgba(0.0, 0.0, 255.0, 0.2);
  	-fx-text-fill: #232323;
@@ -280,24 +273,14 @@
     -jfx-expanded: false;
 }
 
-.custom-jfx-list-view {
-    -fx-background-insets: 0.0;
-    -jfx-cell-horizontal-margin: 0.0;
-    -jfx-cell-vertical-margin: 5.0;
-    -jfx-expanded: false;
-    -fx-max-width: 200.0px;
-    /* important to hide the list change of height */
-    -fx-background-color: TRANSPARENT;
-}
-
 .drawer-list .jfx-list-cell {
     -fx-background-insets: 0.0;
-    -fx-text-fill: BLACK;
+    -fx-text-fill: #192B4F;
 }
 
 .drawer-list .jfx-list-cell:odd,
 .drawer-list .jfx-list-cell:even {
-    -fx-background-color: WHITE;
+    -fx-background-color: #FFFFFF;
 }
 
 .drawer-item-icon {
@@ -348,9 +331,9 @@
 }
 
 .form-btn:hover, .history-btn:hover {     
-  -fx-effect: dropshadow( three-pass-box, #37F0FF, 10.0, 0.0, 0.0, 0.0);;
-  -fx-font-weight: bold; 
-  -fx-cursor: hand;
+	-fx-effect: dropshadow( three-pass-box, #37F0FF, 10.0, 0.0, 0.0, 0.0);
+	-fx-font-weight: bold; 
+	-fx-cursor: hand;
  }
 
 .history-btn {
@@ -364,25 +347,10 @@
 	-fx-border-color: #FFFFFF;
 }
 
-.my-button {
-    -fx-pref-width: 35px;
-    -fx-background-color: #44B449;
-    -fx-background-radius: 35px;
-    -fx-pref-height: 35px;
-    -fx-text-fill: white;
-    -fx-border-color: WHITE;
-    -fx-border-radius: 35px;
-    -fx-border-width: 3px;
-}
-
-.history-container {
-	-fx-pref-width: 400.0;
-}
-
 .hours-label {
-  -fx-text-fill: #979797;
+  /*-fx-text-fill: #979797;*/
   -fx-font-weight: bold;
-  -fx-font-size: 16px;
+  -fx-font-size: 14px;
   -fx-padding: 5 0 0 0;
 }
  
@@ -399,7 +367,11 @@
 }
 
 .yellow-lbl > .glyph-icon {
-	-fx-fill: #F7B11C; 
+	-fx-fill: #F5C903; 
+}
+
+.orange-lbl > .glyph-icon {
+	-fx-fill: #FF7800; 
 }
 
 /*******************************************************************************
@@ -486,7 +458,7 @@
 
 .sb-progress-bar > .bar {	
 	-fx-background-color: #37F0FF;
-	/*-fx-padding: 2;*/
+	-fx-padding: 2;
 }
 /*******************************************************************************
 *                                                                              *
@@ -498,3 +470,95 @@
     -fx-padding: 5 0 5 0;
     -fx-alignment: top-center;
 }
+
+.mylistview {
+	-fx-background-color: #F5F5F5;
+}
+
+.mylistview .scroll-bar:horizontal .track,
+.mylistview .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 2em;
+}
+
+.mylistview .scroll-bar:horizontal .increment-button,
+.mylistview .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 10 0;
+}
+
+.mylistview .scroll-bar:vertical .increment-button,
+.mylistview .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 10 0 0;
+}
+
+.mylistview .scroll-bar .increment-arrow,
+.mylistview .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.mylistview .scroll-bar:horizontal .thumb,
+.mylistview .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * OneShot Entry Page                                                          *
+ *                                                                             *
+ ******************************************************************************/
+.bulk-title {
+    -fx-pref-width: 350px;
+    -fx-text-fill: #213F63;
+    -fx-font-smoothing-type: lcd;
+    -fx-font: bold italic 28px "Serif";
+    -fx-effect: dropshadow( three-pass-box , #7B7B7B , 8 , 0.0 , 2 , 0 );
+}
+
+.table-title-btn {
+	-fx-font-size:12px;
+	-fx-pref-width: 80px;    
+    -fx-background-radius: 3px;
+    -fx-pref-height: 20px;
+    -fx-text-fill: #FFFFFF; 
+    -fx-border-color: #F8F8F3;   
+    -fx-border-radius: 3px;
+    -fx-border-width: 2px;
+}
+
+.table-title-btn:hover {     
+	-fx-effect: dropshadow(three-pass-box, #37F0FF, 10.0, 0.0, 0.0, 0.0);
+	-fx-font-weight: bold; 
+	-fx-cursor: hand;
+ }
+
+.form-container {
+	-fx-padding: 20 0;
+	-fx-background-color: linear-gradient(#F8F8F8 0%, #F0F0F0 20%, #E8E8E8 40%, #E0E0E0 60%, #D8D8D8 80%, #D0D0D0 100%);
+	-fx-effect: dropshadow(one-pass-box, #888888 , 10.0, 0.0, 0.0, 0.0);
+}
+
+.column-btn {
+	-fx-pref-width: 100px;    
+    -fx-background-radius: 5px;
+    -fx-pref-height: 15px;
+    -fx-text-fill: #FFFFFF;    
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+    -fx-background-color: #1F6075;
+	-fx-border-color: #FFFFFF;
+}
+
+.column-btn:hover {     
+	-fx-effect: dropshadow(three-pass-box, #464040, 10.0, 0.0, 0.0, 0.0);
+	-fx-text-fill: #43FFF9;
+	-fx-cursor: hand;
+ }

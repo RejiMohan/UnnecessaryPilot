@@ -35,7 +35,7 @@ public class StemsUtil {
 		try {
 			String timeSheetDate = taskDate.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"));
 			
-			return ""; //TODO Build Body
+			return URLEncoder.encode("BODY", Charsets.UTF_8.name()); //TODO Build Body
 
 		} catch (UnsupportedEncodingException uee) {
 			throw new StemsCustException("Failed to parse Entry. ", uee);
@@ -46,7 +46,7 @@ public class StemsUtil {
 
 		try {
 
-			return ""; //TODO Build URL
+			return URLEncoder.encode("URL", Charsets.UTF_8.name()); //TODO Build URL
 		} catch (UnsupportedEncodingException e) {
 			throw new StemsCustException("Failed to build Login URL");
 		}
@@ -54,7 +54,7 @@ public class StemsUtil {
 
 	public static String buildLandingUrl(StemsMetaData stemsData) throws StemsCustException {
 		try {
-			return ""; //TODO Build URL
+			return URLEncoder.encode("URL", Charsets.UTF_8.name()); //TODO Build URL
 		} catch (UnsupportedEncodingException e) {
 			throw new StemsCustException("Failed to build Landing page URL");
 		}
@@ -62,8 +62,8 @@ public class StemsUtil {
 
 	public static String buildTimeSheetEntryUrl(StemsMetaData stemsData) throws StemsCustException {
 		try {
-
-			return ""; //TODO Build URL
+			
+			return URLEncoder.encode("URL", Charsets.UTF_8.name()); //TODO Build URL
 		} catch (UnsupportedEncodingException e) {
 			throw new StemsCustException("Failed to build TS Entry page URL");
 		}

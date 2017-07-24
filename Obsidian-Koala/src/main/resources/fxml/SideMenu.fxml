@@ -10,17 +10,24 @@
         <String fx:value="side-menu"/>
     </styleClass>
     <JFXListView fx:id="sideList" styleClass="drawer-list">
-        <Label fx:id="taskEntryTrigger">Task Entry
+        <Label fx:id="taskEntryTrigger">Repeater
         	<graphic>
                 <StackPane styleClass="drawer-item-icon-container">
                     <FontAwesomeIconView glyphName="TASKS" size="1.5em" styleClass="drawer-item-icon"/>
                 </StackPane>
             </graphic>
         </Label>
-		<Label fx:id="taskHistoryTrigger">Logged Hours
+		<Label fx:id="taskHistoryTrigger">Look-Over
 			<graphic>
                 <StackPane styleClass="drawer-item-icon-container">
-                    <FontAwesomeIconView glyphName="CALENDAR_CHECK_ALT" size="1.5em" styleClass="drawer-item-icon"/>
+                    <FontAwesomeIconView glyphName="BINOCULARS" size="1.5em" styleClass="drawer-item-icon"/>
+                </StackPane>
+            </graphic>
+        </Label>
+        <Label fx:id="bulkEntryTrigger">OneShot 
+            <graphic>
+                <StackPane styleClass="drawer-item-icon-container">
+                    <FontAwesomeIconView glyphName="FLAG_CHECKERED" size="1.5em" styleClass="drawer-item-icon"/>
                 </StackPane>
             </graphic>
         </Label>

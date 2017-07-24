@@ -9,6 +9,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +23,8 @@ import com.po.ping.obskoala.datum.IdNameHolder;
 import com.po.ping.obskoala.datum.StemsMetaData;
 import com.po.ping.obskoala.datum.TaskEntry;
 import com.po.ping.obskoala.exceptions.StemsCustException;
+
+import javafx.collections.ObservableList;
 
 import static com.po.ping.obskoala.utils.Constants.CACHE_CTRL;
 import static com.po.ping.obskoala.utils.Constants.NO_CACHE;
@@ -58,11 +62,9 @@ public class StemsAPIConnector {
 	public static String getTimeSheetEntryForTheDay(LocalDate date) throws StemsCustException {
 
 		try {
-			
-			if(StringUtils.isBlank(cookie)) {
-				StemsMetaData stemsData = BuddyCfgHandle.getInstance().getMetaData();
+			StemsMetaData stemsData = BuddyCfgHandle.getInstance().getMetaData();
+			if(isSessionExpired(stemsData))
 				doStemsLogin(stemsData);
-			}
 			
 			String queryDate = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			String formData = ""; //TODO Add Formdata
@@ -72,7 +74,7 @@ public class StemsAPIConnector {
 					.header("content-type", "application/x-www-form-urlencoded").header(CACHE_CTRL, NO_CACHE)
 					.header(COOKIE, cookie).body(formData).asString();
 			if (response.getStatus() == 200) {
-				Document document = Jsoup.parse(response.getBody(), "UTF-8");
+				Document document = Jsoup.parse(response.getBody(), Charsets.UTF_8.name());
 				if (null != document) {
 					if(null != document.select(Constants.ERR_DIV_SELECTOR) && StringUtils.isNotBlank(document.select(Constants.ERR_DIV_SELECTOR).first().text()))
 						return "00 : 00";
@@ -82,23 +84,35 @@ public class StemsAPIConnector {
 				}					
 			}
 
-		} catch (DateTimeException | UnirestException | IOException ex) {
-			throw new StemsCustException("Failed to check deails on " + date, ex );
+		} catch (DateTimeException | UnirestException ex) {
+			throw new StemsCustException("Failed to check timesheet deails on " + date, ex );
 		}
 		
 		return Constants.UNKNOWN;
 	}
 	
 	
+	private static boolean isSessionExpired(StemsMetaData stemsData) throws StemsCustException {
+		try {
+			HttpResponse<String> response = Unirest.get(StemsUtil.buildTimeSheetEntryUrl(stemsData)).header(CACHE_CTRL, NO_CACHE)
+			.header(COOKIE, cookie).asString();
+			
+			return response.getStatus() != 200 || StringUtils.containsIgnoreCase(response.getBody(), "Your Session has been Expired");
+			
+		} catch (UnirestException | StemsCustException e) {
+			throw new StemsCustException("Session Check Failed", e); 
+		}
+	}
+
 	public static List<IdNameHolder> getActivitiesForGroup(String groupId, StemsMetaData stemsData) throws StemsCustException {
 				
-		if(StringUtils.isBlank(cookie))
+		if(isSessionExpired(stemsData))
 			doStemsLogin(stemsData);
 		
 		try {
 			if(StringUtils.isNotBlank(groupId)) {
 				String queryParams = ""; //TODO
-				String requestUrl =  ""; //TODO
+				String requestUrl =  URLEncoder.encode("URL", Charsets.UTF_8.name()); //TODO ADD URL
 				
 				HttpResponse<String> response = Unirest.get(requestUrl)
 						.header(COOKIE, cookie)
@@ -106,11 +120,10 @@ public class StemsAPIConnector {
 				
 				if (response.getStatus() == 200) {
 					return StemsUtil.extractNameIdPairsFromResponse(response.getBody());
-					
-				}	
+				}  
 			}
 			throw new StemsCustException("Failed to retrieve activities.");
-		} catch (UnsupportedEncodingException |UnirestException ex) {
+		} catch (UnsupportedEncodingException | UnirestException ex) {
 			throw new StemsCustException("Failed to retrieve activities.", ex);
 		}
 	}
@@ -120,13 +133,13 @@ public class StemsAPIConnector {
 		LocalDate today = LocalDate.now(ZoneId.of("Asia/Kolkata"));
 		int daysCounter = daysTobeRepeated;
 		
-		if(StringUtils.isBlank(cookie))
+		if(isSessionExpired(stemsData))
 			doStemsLogin(stemsData);
 		
 		for (TaskEntry task : taskList) {			
 			String result = updateTaskInStems(projectId, taskDate, task);
 			if(StringUtils.isNotBlank(result))
-				errorMessages.add("Failed '" + task.getTsRemarks() + "' on " + taskDate + ". Reason : '" + result + "'");
+				errorMessages.add("Failed to submit task '" + task.getTsRemarks() + "' on " + taskDate + ". Reason : '" + result + "'");
 			
 //			Repeat the same task if required
 			while(daysCounter > 0) {
@@ -134,7 +147,7 @@ public class StemsAPIConnector {
 				if(!targetedDate.equals(taskDate)) {
 					result = updateTaskInStems(projectId, targetedDate, task);
 					if(StringUtils.isNotBlank(result))
-						errorMessages.add("Failed '" + task.getTsRemarks() + "' on " + targetedDate + ". Reason : '" + result + "'");
+						errorMessages.add("Failed to submit task '" + task.getTsRemarks() + "' on " + targetedDate + ". Reason : '" + result + "'");
 				}
 				--daysCounter;				
 			}
@@ -150,7 +163,7 @@ public class StemsAPIConnector {
 					.header("content-type", "application/x-www-form-urlencoded").header(CACHE_CTRL, NO_CACHE)
 					.header(COOKIE, cookie).body(StemsUtil.buildTimeSheet(projectId, taskDate, task)).asString();
 			if (response.getStatus() == 200) {
-				Document document = Jsoup.parse(response.getBody(), "UTF-8");
+				Document document = Jsoup.parse(response.getBody(), Charsets.UTF_8.name());
 				if (null != document && null != document.select(Constants.ERR_DIV_SELECTOR)) {
 					return document.select(Constants.ERR_DIV_SELECTOR).first().text();
 				}
@@ -161,5 +174,20 @@ public class StemsAPIConnector {
 			return e.getLocalizedMessage();
 		}
 		return null;
+	}
+
+	public static List<String> submitTasks(StemsMetaData stemsData, ObservableList<TaskEntry> taskList) throws StemsCustException {
+		List<String> errorMessages = new ArrayList<>();
+		
+		if(isSessionExpired(stemsData))
+			doStemsLogin(stemsData);
+		
+		for (TaskEntry task : taskList) {			
+			String result = updateTaskInStems(task.getTsProject().getId(), task.getTsDate(), task);
+			if(StringUtils.isNotBlank(result))
+				errorMessages.add("Failed to submit task '" + task.getTsRemarks() + "' on " + task.getTsDate() + "; Reason : '" + result + "'");			
+		}
+		
+		return errorMessages;
 	}
 }

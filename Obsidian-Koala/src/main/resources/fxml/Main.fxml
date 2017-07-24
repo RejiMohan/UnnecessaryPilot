@@ -10,8 +10,8 @@
     <!-- Header -->
     <BorderPane>
         <top>
-            <VBox spacing="20">
-                <JFXToolbar>
+            <VBox spacing="20" styleClass="header">
+                <JFXToolbar >
                     <leftItems>
                         <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
                             <StackPane fx:id="titleBurgerContainer">

@@ -45,9 +45,6 @@ public class TaskHistoryPageController {
     private static final LocalDate TODAY = LocalDate.now(ZoneId.of("Asia/Kolkata"));
     private Service<Void> service = new ProcessService();
 
-    /**
-     * init fxml when loaded.
-     */
     @PostConstruct
     public void init() {
     	progressBar.setVisible(false);
@@ -84,9 +81,9 @@ public class TaskHistoryPageController {
 	    			service.reset();
 	    		});				
 			}
-		});
-    	
-        historyList.setMaxHeight(500);
+		});    	
+   	
+        historyList.setMaxHeight(3500);
         JFXScrollPane.smoothScrolling((ScrollPane) taskHistoryScroll.getChildren().get(0));
     }
         
@@ -116,6 +113,8 @@ public class TaskHistoryPageController {
         	String styleClass = "";
         	String hoursString = result;
         	GlyphIcons icon = null;
+        	Label timeLabel = new Label(hoursString);
+        	timeLabel.getStyleClass().add("hours-label");
         	
         	if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek()== DayOfWeek.SUNDAY) {
         		icon = FontAwesomeIcon.HOME;
@@ -130,9 +129,17 @@ public class TaskHistoryPageController {
     	    		}	    			
     	    		else {
     	    			int hours = Integer.parseInt(result.substring(0, result.indexOf(':')).trim());
+    	    			int minutes = Integer.parseInt(result.substring(result.indexOf(':') + 1).trim());
     	    			if(hours < 8) {
-    	    				styleClass = "red-lbl";
-    	    				icon = FontAwesomeIcon.CALENDAR_TIMES_ALT;		
+    	    				if(hours > 0 || minutes > 0) {
+    	    					styleClass = "orange-lbl";
+    	    					timeLabel.getStyleClass().add("orange-text");
+    	    					icon = FontAwesomeIcon.CALENDAR_MINUS_ALT;    	    					
+    	    				}else {
+    	    					styleClass = "red-lbl";
+    	    					timeLabel.getStyleClass().add("red-text");
+    	    					icon = FontAwesomeIcon.CALENDAR_TIMES_ALT;
+    	    				}
     	    			} else {
     	    				styleClass = "green-lbl";
     	    				icon = FontAwesomeIcon.CALENDAR_CHECK_ALT;
@@ -145,9 +152,7 @@ public class TaskHistoryPageController {
     	    	}	    		
         	}    	
     		
-    		Label timeLabel = new Label(hoursString);
-    		timeLabel.getStyleClass().add("hours-label");
-    		
+        	timeLabel.setText(hoursString);    		
     		Label iconLabel = GlyphsDude.createIconLabel(null == icon? FontAwesomeIcon.BOMB : icon, "   " + date.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy - eeee")), "2em", "16", ContentDisplay.LEFT );
     		iconLabel.getStyleClass().add(styleClass);
     		iconLabel.setPrefWidth(250);
