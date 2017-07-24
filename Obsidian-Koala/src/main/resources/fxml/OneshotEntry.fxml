@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<StackPane xmlns="http://javafx.com/javafx/2.2" xmlns:fx="http://javafx.com/fxml/1" fx:id="root" style="-fx-padding: 10 25;">
+    <VBox maxHeight="800" maxWidth="650" spacing="10" alignment="CENTER">        
+        <children>
+            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                <Label styleClass="bulk-title">Tasks to Submit</Label>
+                <JFXButton fx:id="submitButton" buttonType="RAISED" text="SUBMIT" styleClass="table-title-btn" style="-fx-background-color:#1F6075;" />
+                <Label styleClass="label-spacer" />
+                <JFXButton fx:id="clearButton" buttonType="RAISED" text="CLEAR" styleClass="table-title-btn" style="-fx-background-color:#758180;" />
+            </HBox>
+            <JFXProgressBar fx:id="progressBar" styleClass="sb-progress-bar" />
+            <JFXTreeTableView fx:id="tasksTableView" prefWidth="400" prefHeight="200">
+                <placeholder>
+                    <Label text="You haven't added any tasks yet." />
+                </placeholder>
+                <columns>
+                    <JFXTreeTableColumn fx:id="colProject" text="Project" resizable="true" sortable="false" />
+                    <JFXTreeTableColumn fx:id="colDate" text="Timesheet Date" resizable="true" sortable="false" />
+                    <JFXTreeTableColumn fx:id="colGroup" text="Group" resizable="true" sortable="false" />
+                    <JFXTreeTableColumn fx:id="colActivity" text="Activity" resizable="true" sortable="false" />
+                    <JFXTreeTableColumn fx:id="colDuration" text="Duration" resizable="true" sortable="false" />
+                    <JFXTreeTableColumn fx:id="colRemarks" text="Task Details" resizable="true" sortable="false" />
+                </columns>
+            </JFXTreeTableView>
+            <HBox styleClass="form-container">
+                <VBox prefWidth="400" spacing="30" maxWidth="400" alignment="CENTER">
+                    <children>
+                        <HBox spacing="20" style="-fx-padding: 0 0 0 10;">
+                            <children>
+                                <JFXComboBox fx:id="projectCombo" promptText="Project*" prefWidth="200"/>
+                                <JFXDatePicker fx:id="timesheetDate" prefWidth="200" editable="false" promptText="Timesheet Date*" style="-fx-padding:0;"/>
+                            </children>
+                        </HBox>
+                        <HBox spacing="20" style="-fx-padding: 0 0 0 10;">
+                            <children>
+                                <JFXComboBox fx:id="actGrpCombo" promptText="Activity Group*" prefWidth="200" />
+                                <JFXComboBox fx:id="activityCombo" promptText="Activity*" prefWidth="200" />
+                            </children>
+                        </HBox>
+                        
+                        <HBox fx:id="actyPrgrsContainer" style="-fx-padding: 0 0 0 0;">
+							<children>
+								<JFXProgressBar />
+							</children>
+						</HBox>
+                        
+                        <HBox spacing="20" style="-fx-padding: 0 0 0 10;">
+                            <children>
+                                <JFXTextField fx:id="hoursTxt" promptText="Hours*" prefWidth="200" />
+                                <JFXTextField fx:id="minutesTxt" promptText="Minutes*" prefWidth="200" />
+                            </children>
+                        </HBox>
+                        <HBox spacing="20" style="-fx-padding: 0 0 0 10;">
+                            <children>
+                                <JFXTextArea fx:id="detailsTxtArea" promptText="Task Details*" maxWidth="400" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" spacing="10" prefWidth="150" style="-fx-padding: 50 0 20 15;">
+                    <children>
+                        <JFXButton fx:id="addEntryBtn" buttonType="RAISED" text="Add Task" styleClass="column-btn" style="-fx-background-color:#145005;" />
+                        <JFXButton fx:id="delEntryBtn" buttonType="RAISED" text="Remove Task" styleClass="column-btn" style="-fx-background-color:#D00909;" />
+                        <JFXButton fx:id="resetFormBtn" buttonType="RAISED" text="Reset Form" styleClass="column-btn" style="-fx-background-color:#758180;" />
+                    </children>
+                </VBox>
+            </HBox>
+            <JFXSnackbar fx:id="snackbar" prefWidth="300" />
+        </children>
+    </VBox>
+    <JFXDialog fx:id="messagePopup">
+        <JFXDialogLayout>
+            <heading>
+                <Label fx:id="messageTitle" />
+            </heading>
+            <body>
+                <Label fx:id="messageBody" />
+            </body>
+            <actions>
+                <JFXButton fx:id="okBtn" styleClass="dialog-accept,blue-text">OK</JFXButton>
+            </actions>
+        </JFXDialogLayout>
+    </JFXDialog>
+</StackPane>
