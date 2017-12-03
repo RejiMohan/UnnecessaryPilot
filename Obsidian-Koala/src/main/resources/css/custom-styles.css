@@ -240,6 +240,16 @@
 	-fx-border-color: #F8F8F3;
 }
 
+.blue-btn {
+    -fx-background-color: #063697;
+    -fx-border-color: #F8F8F3;
+}
+
+.orange-btn {
+    -fx-background-color: #DE6C07;
+    -fx-border-color: #F8F8F3;
+}
+
 .button-label-fa {
 	-fx-fill: #FFFFFE;
     -fx-padding: 3.0;
@@ -247,7 +257,7 @@
 }
 
 .label-spacer {
-	-fx-min-width: 15px;
+	-fx-min-width: 6px;
 }
 
 /*******************************************************************************

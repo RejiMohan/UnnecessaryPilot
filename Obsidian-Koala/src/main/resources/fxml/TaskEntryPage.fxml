@@ -56,6 +56,22 @@
 								</StackPane>
 							</graphic>
 						</JFXButton>
+						<Label styleClass="label-spacer"/>					
+						<JFXButton fx:id="editEntryBtn" buttonType="RAISED" styleClass="table-btn,orange-btn">
+							<graphic>
+								<StackPane styleClass="">
+									<FontAwesomeIconView glyphName="PENCIL" size="1em" styleClass="button-label-fa" />
+								</StackPane>
+							</graphic>
+						</JFXButton>
+						<Label styleClass="label-spacer"/>
+						<JFXButton fx:id="copyEntryBtn" buttonType="RAISED" styleClass="table-btn,blue-btn">
+							<graphic>
+								<StackPane styleClass="">
+									<FontAwesomeIconView glyphName="COPY" size="1em" styleClass="button-label-fa" />
+								</StackPane>
+							</graphic>
+						</JFXButton>
 						<Label styleClass="label-spacer"/>
 						<JFXButton fx:id="delEntryBtn" buttonType="RAISED" styleClass="table-btn,red-btn">
 							<graphic>
@@ -126,7 +142,7 @@
 	<JFXDialog fx:id="addTaskDlg">		
 		<JFXDialogLayout>
 			<heading>
-				<Label>Add Entry</Label>
+				<Label fx:id="addDlgTitle"></Label>
 			</heading>
 			<body>
 
@@ -168,7 +184,7 @@
 				</VBox>
 			</body>
 			<actions>
-				<JFXButton fx:id="addButton" styleClass="dialog-accept,blue-text">ADD</JFXButton>
+				<JFXButton fx:id="addButton" styleClass="dialog-accept,blue-text"></JFXButton>
 				<JFXButton fx:id="closeButton" styleClass="dialog-accept,red-text">CLOSE</JFXButton>
 			</actions>
 		</JFXDialogLayout>

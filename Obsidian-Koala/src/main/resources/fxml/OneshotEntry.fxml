@@ -68,6 +68,7 @@
                     <children>
                         <JFXButton fx:id="addEntryBtn" buttonType="RAISED" text="Add Task" styleClass="column-btn" style="-fx-background-color:#145005;" />
                         <JFXButton fx:id="delEntryBtn" buttonType="RAISED" text="Remove Task" styleClass="column-btn" style="-fx-background-color:#D00909;" />
+                        <JFXButton fx:id="duplicateBtn" buttonType="RAISED" text="Duplicate Task" styleClass="column-btn" style="-fx-background-color:#09ABD6;" />
                         <JFXButton fx:id="resetFormBtn" buttonType="RAISED" text="Reset Form" styleClass="column-btn" style="-fx-background-color:#758180;" />
                     </children>
                 </VBox>

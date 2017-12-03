@@ -8,7 +8,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class TaskEntry extends RecursiveTreeObject<TaskEntry> {
+public class TaskEntry extends RecursiveTreeObject<TaskEntry> implements Cloneable {
 	private LocalDate tsDate;
 	private IdNameHolder tsProject;
 	private IdNameHolder tsActyGrp;
@@ -96,6 +96,10 @@ public class TaskEntry extends RecursiveTreeObject<TaskEntry> {
 
 	public StringProperty getDuration() {
 		return new SimpleStringProperty(String.join(":", this.tsHours, this.tsMinutes));
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 }
