@@ -38,6 +38,13 @@
                                 <JFXDatePicker fx:id="timesheetDate" prefWidth="200" editable="false" promptText="Timesheet Date*" style="-fx-padding:0;"/>
                             </children>
                         </HBox>
+                        
+                        <HBox fx:id="prjPrgrsContainer" style="-fx-padding: 0 0 0 0;">
+                            <children>
+                                <JFXProgressBar fx:id="projectlistProgress" styleClass="sb-progress-barxx" />
+                            </children>
+                        </HBox>
+
                         <HBox spacing="20" style="-fx-padding: 0 0 0 10;">
                             <children>
                                 <JFXComboBox fx:id="actGrpCombo" promptText="Activity Group*" prefWidth="200" />

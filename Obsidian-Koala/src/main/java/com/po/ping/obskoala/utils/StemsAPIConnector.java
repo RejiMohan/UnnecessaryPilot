@@ -14,6 +14,7 @@ import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -35,6 +36,7 @@ public class StemsAPIConnector {
 	private StemsAPIConnector() {}
 
 	private static String cookie;
+	private static List<IdNameHolder> projectsList;
 	
 	public static void doStemsLogin(StemsMetaData stemsData) throws StemsCustException {
 		try {
@@ -50,8 +52,10 @@ public class StemsAPIConnector {
 			Unirest.get(StemsUtil.buildLandingUrl(stemsData)).header(CACHE_CTRL, NO_CACHE)
 					.header(COOKIE, cookie).asString();
 
-			Unirest.get(StemsUtil.buildTimeSheetEntryUrl(stemsData)).header(CACHE_CTRL, NO_CACHE)
+			response = Unirest.get(StemsUtil.buildTimeSheetEntryUrl(stemsData)).header(CACHE_CTRL, NO_CACHE)
 					.header(COOKIE, cookie).asString();
+			
+			parseAllocatedProjectsForUser(response);
 
 
 		} catch (UnirestException ex) {
@@ -59,6 +63,30 @@ public class StemsAPIConnector {
 		}
 	}
 	
+	private static void parseAllocatedProjectsForUser(HttpResponse<String> response) {
+		System.out.println(response);
+		Document document = Jsoup.parse(response.getBody(), Charsets.UTF_8.name());
+		Elements projects = document.select("select[name=projectId] > option");
+		projectsList = new ArrayList<>();
+		
+		projects.stream().skip(1).forEach(option -> {
+			if(null != option) {
+				IdNameHolder projectIdName = new IdNameHolder();
+				projectIdName.setId(option.attr("value"));
+				projectIdName.setName(option.text());
+				projectsList.add(projectIdName);
+			}
+		});
+	}
+	
+	public static List<IdNameHolder> getAllocatedProjects(StemsMetaData stemsData) throws StemsCustException {
+		if(null == projectsList || projectsList.isEmpty()) {
+			doStemsLogin(stemsData);
+		}
+		
+		return projectsList;
+	}
+
 	public static String getTimeSheetEntryForTheDay(LocalDate date) throws StemsCustException {
 
 		try {

@@ -60,6 +60,7 @@ public class TaskEntryPageController {
     @FXML private JFXScrollPane taskEntryScroll;
             
     @FXML private JFXComboBox<IdNameHolder> projectCombo;
+    @FXML private HBox prjPrgrsContainer;
     @FXML private JFXDatePicker timesheetDate;
     
     @FXML private JFXTreeTableView<TaskEntry> tasksTableView;
@@ -75,8 +76,11 @@ public class TaskEntryPageController {
     @FXML private JFXRadioButton radio4day;
     @FXML private ToggleGroup repeatedDays;
     
+    @FXML private Label addDlgTitle;
     @FXML private JFXButton addEntryBtn;
     @FXML private JFXButton delEntryBtn;
+    @FXML private JFXButton editEntryBtn;
+    @FXML private JFXButton copyEntryBtn;
     
     @FXML private JFXButton submitButton;
     @FXML private JFXButton clearButton;    
@@ -99,12 +103,15 @@ public class TaskEntryPageController {
     
     @FXML private JFXProgressBar progressBar;
     @FXML private HBox actyPrgrsContainer;
+    @FXML private HBox actyGrpPrgrsContainer;
     
     private ObservableList<TaskEntry> taskList = FXCollections.observableArrayList();
     private StemsMetaData stemsCfg;
     private List<String> responseMsgs = new ArrayList<>();
     private Service<Void> service = new ProcessService();
+    private Service<Void> actGrpSvc = new ActivityGroupService();
     private Service<Void> activitySvc = new ActivityService();
+    private Service<Void> projectSvc = new ProjectListService();
 
     @PostConstruct
 	public void init() {
@@ -144,11 +151,13 @@ public class TaskEntryPageController {
 		});
 	}
     
-	private void prepareProjectnDateFields() {
+	private void prepareProjectnDateFields() throws StemsCustException {
 		// Project Combo box
+		prjPrgrsContainer.setVisible(false);
+		prjPrgrsContainer.setManaged(false);
 		projectCombo.setCellFactory(event -> UIUtil.getComboCellfactory());
 		projectCombo.setConverter(UIUtil.getComboConverter());
-		projectCombo.getItems().addAll(stemsCfg.getProjects());
+		prepareProjectListCombo();
 
 		// Date Picker
 		timesheetDate.setConverter(UIUtil.dateConverter());
@@ -156,7 +165,29 @@ public class TaskEntryPageController {
 		timesheetDate.setValue(LocalDate.now());
 	}
 
-    private void validateAndSubmitData() {    	
+    private void prepareProjectListCombo() {
+		if(!projectSvc.isRunning()) {
+			prjPrgrsContainer.setVisible(true);
+			prjPrgrsContainer.setManaged(true);
+			projectSvc.start();
+		}
+
+		projectSvc.setOnSucceeded(e -> {
+			prjPrgrsContainer.setVisible(false);
+			prjPrgrsContainer.setManaged(false);
+			projectCombo.getSelectionModel().selectFirst();
+			projectSvc.reset();
+        });
+		
+		projectSvc.setOnFailed(e -> {
+			prjPrgrsContainer.setVisible(false);
+			prjPrgrsContainer.setManaged(false);
+			snackbar.show("Oh No! Something went wrong in fetching projects...", 3000);
+			projectSvc.reset();
+		});
+	}
+
+	private void validateAndSubmitData() {    	
     	responseMsgs.clear();
     	StringBuilder errorMessages = new StringBuilder();
     	
@@ -198,11 +229,10 @@ public class TaskEntryPageController {
     	}  	    
 	}
 
-	private void setupAddEntryDialog() {
+	private void setupAddEntryDialog() throws StemsCustException {
 				
 		tsActGrpCombo.setCellFactory(cell -> UIUtil.getComboCellfactory());
 		tsActGrpCombo.setConverter(UIUtil.getComboConverter());
-		tsActGrpCombo.getItems().addAll(stemsCfg.getActivityGroups());
 		
 		tsActivityCombo.setCellFactory(cell -> UIUtil.getComboCellfactory());
 		tsActivityCombo.setConverter(UIUtil.getComboConverter());		
@@ -216,7 +246,6 @@ public class TaskEntryPageController {
 		    IdNameHolder selectedGrp = tsActGrpCombo.getSelectionModel().getSelectedItem();		    
 		    if(null != selectedGrp) {
 		    		tsActivityCombo.getItems().clear();
-		    		
 		    		if(!activitySvc.isRunning()) {
 		    			actyPrgrsContainer.setVisible(true);
 		    			actyPrgrsContainer.setManaged(true);
@@ -241,7 +270,7 @@ public class TaskEntryPageController {
 		tsActivityCombo.setOnAction(event -> {
 			IdNameHolder selectedGrp = tsActGrpCombo.getSelectionModel().getSelectedItem();
 			IdNameHolder selectedActivity = tsActivityCombo.getSelectionModel().getSelectedItem();
-		    if(null != selectedGrp && null != selectedActivity) {
+		    if(null != selectedGrp && null != selectedActivity && (Constants.TRAVEL_GRP.equals(selectedGrp.getId()) || Constants.LEAVE_GRP.equals(selectedGrp.getId()))) {
 		    	tsMinutes.setText(StemsUtil.getAutoMinutesForActivity(selectedActivity.getId()));
 		    	tsHours.setText(StemsUtil.getAutoHoursForActivity(selectedActivity.getId()));	
 		    }
@@ -350,8 +379,15 @@ public class TaskEntryPageController {
 
 		addEntryBtn.setOnMouseClicked(event -> {
 			
+			prepareActivityGroupCombo();			
+			actyGrpPrgrsContainer.setVisible(false);
+			actyGrpPrgrsContainer.setManaged(false);
+			
 			actyPrgrsContainer.setVisible(false);
 			actyPrgrsContainer.setManaged(false);
+			
+			addDlgTitle.setText("Add Entry");
+			addButton.setText("ADD");
 			
 			tsActGrpCombo.setValue(null);
 			tsActivityCombo.getItems().clear();
@@ -373,22 +409,73 @@ public class TaskEntryPageController {
 	    		task.setTsMinutes(tsMinutes.getText());
 	    		task.setTsRemarks(tsRemarks.getText());
 	    		
+	    		if(Constants.TEXT_SAVE.equals(addButton.getText()))
+	    			taskList.remove(tasksTableView.getSelectionModel().selectedItemProperty().get().getValue());
+	    		
 	    		taskList.add(task);
 				addTaskDlg.close();
+				tasksTableView.getSelectionModel().selectFirst();
 			}
 		});
 
 		closeButton.setOnMouseClicked(event -> addTaskDlg.close());
 		delEntryBtn.disableProperty().bind(Bindings.isEmpty(tasksTableView.getSelectionModel().getSelectedItems()));
+		editEntryBtn.disableProperty().bind(Bindings.isEmpty(tasksTableView.getSelectionModel().getSelectedItems()));
+		copyEntryBtn.disableProperty().bind(Bindings.isEmpty(tasksTableView.getSelectionModel().getSelectedItems()));
 
 		delEntryBtn.setOnMouseClicked(event -> {
 			taskList.remove(tasksTableView.getSelectionModel().selectedItemProperty().get().getValue());
 			if (taskList.isEmpty())
 				tasksTableView.getSelectionModel().clearSelection();
 		});
+		
+		editEntryBtn.setOnMouseClicked(event -> {
+			addDlgTitle.setText("Edit Entry");
+			addButton.setText(Constants.TEXT_SAVE);
+			TaskEntry selectedEntry = tasksTableView.getSelectionModel().selectedItemProperty().get().getValue();
+			
+			tsActGrpCombo.setValue(selectedEntry.getTsActyGrp());
+			tsActivityCombo.setValue(selectedEntry.getTsActivity());
+			tsHours.setText(selectedEntry.getTsHours());
+			tsMinutes.setText(selectedEntry.getTsMinutes());
+			tsRemarks.setText(selectedEntry.getTsRemarks());
+
+			addTaskDlg.setTransitionType(DialogTransition.CENTER);
+			addTaskDlg.show((StackPane) context.getRegisteredObject("ContentPane"));
+		});
+		
+		copyEntryBtn.setOnMouseClicked(event -> {
+			try {
+				TaskEntry entryToDuplicate = tasksTableView.getSelectionModel().selectedItemProperty().get().getValue();
+				taskList.add((TaskEntry) entryToDuplicate.clone());
+			} catch (CloneNotSupportedException e) {
+				snackbar.show("Hmmm...Failed to duplicate Task Entry.", 2500);
+			}
+		});
 	}
     
-    private boolean validateTaskEntry() {
+    private void prepareActivityGroupCombo() {
+    	if(!actGrpSvc.isRunning()) {
+    		actyGrpPrgrsContainer.setVisible(true);
+    		actyGrpPrgrsContainer.setManaged(true);
+			actGrpSvc.start();
+		}
+
+    	actGrpSvc.setOnSucceeded(e -> {
+    		actyGrpPrgrsContainer.setVisible(false);
+    		actyGrpPrgrsContainer.setManaged(false);
+			actGrpSvc.reset();
+        });
+		
+    	actGrpSvc.setOnFailed(e -> {
+    		actyGrpPrgrsContainer.setVisible(false);
+    		actyGrpPrgrsContainer.setManaged(false);
+			snackbar.show("Oh No! Something went wrong in fetching projects...", 3000);
+			actGrpSvc.reset();
+		});
+	}
+
+	private boolean validateTaskEntry() {
     	
     	if(null == tsActGrpCombo.getValue()) {
     		snackbar.show("Hmmm...You missed Activity Group.", 2500);
@@ -416,7 +503,7 @@ public class TaskEntryPageController {
     	}
     	
     	String actvtId = tsActivityCombo.getValue().getId();
-    	if(isZeroHrs && isZeroMins) {
+    	if(isZeroHrs && isZeroMins && !(Constants.HOLIDAY.equalsIgnoreCase(actvtId) || Constants.COMP_OFF.equalsIgnoreCase(actvtId))) {
     		snackbar.show("Hmmm... You have a Task with Zero Duration.", 2500);
     		return false;
     	}
@@ -454,6 +541,34 @@ public class TaskEntryPageController {
     }
 	
 	
+	class ProjectListService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                	List<IdNameHolder> projects = StemsAPIConnector.getAllocatedProjects(stemsCfg);
+                	projectCombo.getItems().addAll(projects);
+					return null;
+                }
+            };
+        }
+    }
+	
+	class ActivityGroupService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                	List<IdNameHolder> actGroups = StemsAPIConnector.getActivityGroupsForProject(projectCombo.getSelectionModel().getSelectedItem().getId(), stemsCfg);
+                	tsActGrpCombo.getItems().addAll(actGroups);
+                    return null;
+                }
+            };
+        }
+    }
+	
 	class ActivityService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
@@ -462,7 +577,6 @@ public class TaskEntryPageController {
                 protected Void call() throws Exception {
                 	List<IdNameHolder> activities = StemsAPIConnector.getActivitiesForGroup(tsActGrpCombo.getSelectionModel().getSelectedItem().getId(), stemsCfg);
 					tsActivityCombo.getItems().addAll(activities);
-
                     return null;
                 }
             };

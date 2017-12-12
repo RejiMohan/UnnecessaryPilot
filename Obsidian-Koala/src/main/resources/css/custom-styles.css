@@ -112,6 +112,19 @@
     -fx-background-radius: 5px;
 }
 
+.jfx-options-burger {
+    -fx-padding: 10px;
+}
+
+.jfx-options-burger StackPane {
+    -fx-pref-width: 4px;
+}
+
+.jfx-hello-label {
+    -fx-font-smoothing-type: lcd;
+    -fx-font: normal italic 16px "Serif";
+}
+
 /*******************************************************************************
  *                                                                             *
  * JFX Tool Bar                                                                *

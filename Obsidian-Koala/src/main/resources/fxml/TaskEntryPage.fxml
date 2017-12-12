@@ -37,7 +37,11 @@
 		                    </StackPane>
 		                </StackPane>		                
 		            </HBox>
-		            
+					<HBox fx:id="prjPrgrsContainer" style="-fx-padding: 0 0 0 0;">
+						<children>
+							<JFXProgressBar fx:id="projectlistProgress" styleClass="sb-progress-barxx" />
+						</children>
+					</HBox>		            
         		   <HBox alignment="CENTER">
 		                <Label styleClass="form-label">Date: </Label>
 		                <StackPane HBox.hgrow="ALWAYS">
@@ -148,6 +152,12 @@
 
 				<VBox prefWidth="300" spacing="30" maxWidth="300" alignment="CENTER">
 					<children>
+
+						<HBox fx:id="actyGrpPrgrsContainer" style="-fx-padding: 0 0 0 0;">
+							<children>
+								<JFXProgressBar fx:id="actGrpProgress" styleClass="sb-progress-barxx" />
+							</children>
+						</HBox>
 
 						<HBox spacing="40" style="-fx-padding: 0 0 0 10;">
 							<children>

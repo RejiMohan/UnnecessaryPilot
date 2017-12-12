@@ -22,6 +22,15 @@
                         </JFXRippler>
                         <Label>STEMS Buddy</Label>
                     </leftItems>
+                    <rightItems>
+                    	<Label fx:id="helloLabel" styleClass="jfx-hello-label"></Label>
+                        <JFXRippler fx:id="optionsRippler" maskType="CIRCLE" style="-fx-ripple-color: #fff;">
+                            <StackPane fx:id="optionsBurger">
+                                <JFXHamburger styleClass="jfx-options-burger">
+                                </JFXHamburger>
+                            </StackPane>
+                        </JFXRippler>
+                    </rightItems>
                 </JFXToolbar>
             </VBox>
         </top>

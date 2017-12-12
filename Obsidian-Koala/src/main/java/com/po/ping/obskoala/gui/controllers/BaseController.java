@@ -14,6 +14,7 @@ import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import javafx.scene.control.Label;
 
 import javax.annotation.PostConstruct;
 
@@ -27,7 +28,7 @@ public final class BaseController {
     @FXML private StackPane titleBurgerContainer;
     @FXML private JFXHamburger titleBurger;
     @FXML private JFXDrawer drawer;
-
+    @FXML private Label helloLabel;
 
     @PostConstruct
     public void init() throws StemsCustException {
@@ -67,6 +68,8 @@ public final class BaseController {
 			final FlowHandler sideMenuFlowHandler = sideMenuFlow.createHandler(context);
 			drawer.setSidePane(sideMenuFlowHandler.start(new ExtendedAnimatedFlowContainer(containerAnimationDuration,
 			                                                                               SWIPE_LEFT)));
+			helloLabel.setText("Logged In As ------");
+			
 		} catch (FlowException ex) {
 			throw new StemsCustException("Something went Wrong.", ex);
 		}

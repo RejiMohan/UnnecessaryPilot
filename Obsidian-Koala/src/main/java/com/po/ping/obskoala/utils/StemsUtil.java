@@ -89,12 +89,26 @@ public class StemsUtil {
 	}
 	
 	public static String getAutoHoursForActivity(String activityId) {
-		//TODO
+		if(StringUtils.isNotBlank(activityId)) {
+			switch (activityId) {
+			case Constants.TRAVEL_FULL: case Constants.CASUAL_FULL: case Constants.PRVLG_FULL: case Constants.LOP_FULL: return Constants.HRS_FULL;
+			case Constants.TRAVEL_HALF: case Constants.CASUAL_HALF: case Constants.PRVLG_HALF: case Constants.LOP_HALF: return Constants.HRS_HALF;
+			case Constants.COMP_OFF: case Constants.HOLIDAY: return Constants.STR_ZERO;
+			default: return StringUtils.EMPTY;
+			}
+		}
 		return StringUtils.EMPTY;
 	}
 
 	public static String getAutoMinutesForActivity(String activityId) {
-		//TODO
+		if(StringUtils.isNotBlank(activityId)) {
+			switch (activityId) {
+			case Constants.TRAVEL_FULL: case Constants.CASUAL_FULL: case Constants.PRVLG_FULL: case Constants.LOP_FULL: 
+			case Constants.TRAVEL_HALF: case Constants.CASUAL_HALF: case Constants.PRVLG_HALF: case Constants.LOP_HALF: 
+			case Constants.COMP_OFF: case Constants.HOLIDAY: return Constants.STR_ZERO;
+			default: return StringUtils.EMPTY;
+			}			
+		}
 		return StringUtils.EMPTY;
 	}
 }
